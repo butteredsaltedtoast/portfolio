@@ -2,7 +2,7 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 
 import { getCollection } from 'astro:content';
-import FormattedDate from '../components/FormattedDate.astro';
+import WriteupCard from '../components/WriteupCard.astro';
 
 import ShootingStars from '../components/ShootingStars.astro';
 
@@ -67,18 +67,7 @@ const recentWriteups = (await getCollection('writeups'))
 		<h2>Recent Writeups</h2>
 
 		<div class="recent-grid">
-			{recentWriteups.map((post) => (
-				<a href={`/writeups/${post.id}/`} class="card">
-					<div class="card-top">
-						<span class={`category category-${post.data.category}`}>{post.data.category}</span>
-						<span class="ctf">{post.data.ctf}</span>
-					</div>
-					<h3 class="title">{post.data.title}</h3>
-					<div class="card-bottom">
-						<span class="date"><FormattedDate date={post.data.pubDate} /></span>
-					</div>
-				</a>
-			))}
+			{recentWriteups.map((post) => <WriteupCard post={post} headingLevel={3} />)}
 		</div>
 
 	</section>

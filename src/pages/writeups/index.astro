@@ -1,6 +1,6 @@
 ---
 import { getCollection } from 'astro:content';
-import FormattedDate from '../../components/FormattedDate.astro';
+import WriteupCard from '../../components/WriteupCard.astro';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 
 const writeups = (await getCollection('writeups')).sort(
@@ -12,20 +12,7 @@ const writeups = (await getCollection('writeups')).sort(
 	<h1>Writeups</h1>
 
 	<div class="grid">
-		{writeups.map((post) => (
-
-			<a href={`/writeups/${post.id}/`} class="card">
-				<div class="card-top">
-					<span class={`category category-${post.data.category}`}>{post.data.category}</span>
-					<span class="ctf">{post.data.ctf}</span>
-				</div>
-				<h2 class="title">{post.data.title}</h2>
-				<div class="card-bottom">
-					<span class="date"><FormattedDate date={post.data.pubDate} /></span>
-				</div>
-			</a>
-
-		))}
+		{writeups.map((post) => <WriteupCard post={post} headingLevel={2} />)}
 	</div>
 
 	<style>

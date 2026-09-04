@@ -226,6 +226,20 @@ hr {
 .category-osint { color: #FF003C; }
 .category-forensics { color: #00CFFF; }
 
+/* Marks a challenge I wrote rather than solved. Deliberately not a category
+   color: it is a different kind of fact about the writeup. */
+.role-badge {
+	text-transform: uppercase;
+	letter-spacing: 0.05em;
+	font-size: 0.7rem;
+	line-height: 1.4;
+	padding: 0.05em 0.6em;
+	border: 1px solid var(--border-strong);
+	border-radius: 999px;
+	color: var(--accent);
+	white-space: nowrap;
+}
+
 .tag-django { color: #44B78B; }
 .tag-javascript { color: #F7DF1E; }
 .tag-css { color: #264DE4; }

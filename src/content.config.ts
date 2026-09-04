@@ -14,6 +14,11 @@ const writeups = defineCollection({
 			
 			ctf: z.string(),
 			category: z.enum(['pwn', 'web', 'crypto', 'reversing', 'misc', 'osint', 'forensics']),
+
+			// 'solver' = I solved this challenge during the CTF.
+			// 'author' = I wrote this challenge for the CTF.
+			// Defaults to 'solver' so existing writeups need no frontmatter change.
+			role: z.enum(['solver', 'author']).default('solver'),
 		}),
 });
 

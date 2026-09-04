@@ -1,0 +1,47 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import FormattedDate from './FormattedDate.astro';
+
+interface Props {
+	post: CollectionEntry<'writeups'>;
+	/** Heading level for the card title, so each page keeps a valid h1 -> h2 -> h3 outline. */
+	headingLevel?: 2 | 3;
+}
+
+const { post, headingLevel = 2 } = Astro.props;
+const Heading = `h${headingLevel}` as 'h2' | 'h3';
+const { title, description, category, ctf, pubDate, role } = post.data;
+const authored = role === 'author';
+---
+
+<a
+	href={`/writeups/${post.id}/`}
+	class="card"
+	data-category={category}
+	data-role={role}
+>
+	<div class="card-top">
+		<span class="card-tags">
+			<span class={`category category-${category}`}>{category}</span>
+			{authored && <span class="role-badge">authored</span>}
+		</span>
+		<span class="ctf">{ctf}</span>
+	</div>
+	<Heading class="title">{title}</Heading>
+	<div class="card-bottom">
+		<span class="date"><FormattedDate date={pubDate} /></span>
+	</div>
+	<span class="sr-only">
+		{authored
+			? `Challenge I wrote for ${ctf}. ${description}`
+			: `Challenge I solved at ${ctf}. ${description}`}
+	</span>
+</a>
+
+<style>
+	.card-tags {
+		display: flex;
+		align-items: center;
+		gap: var(--space-3);
+	}
+</style>
