@@ -3,7 +3,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import { SITE_TITLE } from '../consts';
 ---
 
-<BaseLayout title={`Bio | ${SITE_TITLE}`} description="About Me">
+<BaseLayout title={`Bio | ${SITE_TITLE}`} description="About Me" width={900} pad="4em 2em">
 	<h1 class="bio-name">.butteredtoast</h1>
 
 	<div class="bio-layout">
@@ -39,8 +39,6 @@ import { SITE_TITLE } from '../consts';
 	</div>
 
 	<style>
-		main { max-width: 900px; margin: 0 auto; padding: 4em 2em; }
-
 		.bio-name {
 			background: linear-gradient(135deg, var(--text) 0%, var(--accent) 60%, var(--accent-secondary) 100%);
 			-webkit-background-clip: text;

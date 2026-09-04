@@ -12,18 +12,17 @@ const recentWriteups = (await getCollection('writeups'))
 
 ---
 
-<BaseLayout title=".butteredtoast" description="Writeups from CTFs I've participated in." showStars={true}>
+<BaseLayout title=".butteredtoast" description="Writeups from CTFs I've participated in." showStars={true} width={900} pad="6em 2em">
 
 	<ShootingStars />
 
 	<style>
 
-		main {
+		.home {
 			display: flex;
 			flex-direction: column;
-			padding: 6em 2em;
 			gap: 4em;
-		}	
+		}
 
 		.hero {
 			display: flex;
@@ -55,6 +54,8 @@ const recentWriteups = (await getCollection('writeups'))
 
 	</style>
 
+	<div class="home">
+
 	<section class="hero">
 		<h1 class = "handle">.butteredtoast</h1>
 		<p class="tagline">web-focused · he/him · acquiring savantism</p>
@@ -81,4 +82,6 @@ const recentWriteups = (await getCollection('writeups'))
 		</div>
 
 	</section>
+
+	</div>
 </BaseLayout>

@@ -67,11 +67,14 @@ body::before {
 	pointer-events: none;
 }
 main {
-	width: 720px;
+	/* Pages set --main-width / --main-pad via the `width` and `pad` props on
+	   BaseLayout. A scoped `main {}` rule inside a page does NOT work, because
+	   <main> belongs to the layout and never gets the page's scope attribute. */
+	width: var(--main-width, 720px);
 	max-width: calc(100% - 2em);
 	flex: 1;
 	margin: auto;
-	padding: 3em 1em;
+	padding: var(--main-pad, 3em 1em);
 }
 
 h1,

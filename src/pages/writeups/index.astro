@@ -8,7 +8,7 @@ const writeups = (await getCollection('writeups')).sort(
 );
 ---
 
-<BaseLayout title="Writeups" description="Writeups from CTFs I've participated in.">
+<BaseLayout title="Writeups" description="Writeups from CTFs I've participated in." width={900} pad="4em 2em">
 	<h1>Writeups</h1>
 
 	<div class="grid">
@@ -29,12 +29,6 @@ const writeups = (await getCollection('writeups')).sort(
 	</div>
 
 	<style>
-
-	main {
-		max-width: 900px;
-		margin: 0 auto;
-		padding: 4em 2em;
-	}
 
 	h1 {
 		color: var(--accent);
