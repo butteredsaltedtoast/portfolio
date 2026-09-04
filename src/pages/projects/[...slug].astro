@@ -1,12 +1,8 @@
 ---
 import { type CollectionEntry, getCollection, render } from 'astro:content';
-
-import BaseHead from '../../components/BaseHead.astro';
-import Header from '../../components/Header.astro';
-import Footer from '../../components/Footer.astro';
-import Stars from '../../components/Stars.astro';
-
-import { SITE_TITLE } from '../../consts';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import FormattedDate from '../../components/FormattedDate.astro';
+import { SITE_TITLE, PROJECT_CATEGORIES } from '../../consts';
 
 export async function getStaticPaths() {
 	// Drafts must be filtered here too, not just on the index. Otherwise the
@@ -22,22 +18,95 @@ type Props = CollectionEntry<'projects'>;
 // @ts-ignore
 const post = Astro.props;
 const { Content } = await render(post);
+const category = PROJECT_CATEGORIES.find((c) => c.id === post.data.category);
 ---
 
-<!doctype html>
-<html lang="en">
-    <head>
-        <BaseHead title={`${post.data.title} | ${SITE_TITLE}`} description={post.data.description} />
-    </head>
-    <body>
-        <Stars />
-        <Header />
-        <main>
-            <h1>{post.data.title}</h1>
-            <p>{post.data.stack?.join(', ')}</p>
-            <a href={post.data.github} target="_blank" rel="noopener noreferrer">View GitHub Repository</a>
-        <Content />
-        </main>
-        <Footer />
-    </body>
-</html>
+<BaseLayout title={`${post.data.title} | ${SITE_TITLE}`} description={post.data.description}>
+	<article>
+		<div class="project-head">
+			{category && <span class="eyebrow">{category.label}</span>}
+			<h1>{post.data.title}</h1>
+			<p class="description">{post.data.description}</p>
+
+			<div class="meta">
+				<span class="date"><FormattedDate date={post.data.pubDate} /></span>
+			</div>
+
+			<div class="stack">
+				{post.data.stack?.map((tag) => (
+					<span class={`tag tag-${tag.toLowerCase().replace(/\s+/g, '-')}`}>{tag}</span>
+				))}
+			</div>
+
+			<div class="links">
+				{post.data.github && (
+					<a href={post.data.github} target="_blank" rel="noopener noreferrer">
+						GitHub repository
+					</a>
+				)}
+				{post.data.site && (
+					<a href={post.data.site.url} target="_blank" rel="noopener noreferrer">
+						{post.data.site.label}
+					</a>
+				)}
+			</div>
+		</div>
+
+		<Content />
+	</article>
+
+	<style>
+		.project-head {
+			margin-bottom: var(--space-12);
+			padding-bottom: var(--space-6);
+			border-bottom: 1px solid var(--border);
+		}
+
+		.eyebrow {
+			font-family: 'Space Grotesk', sans-serif;
+			font-size: 0.7rem;
+			text-transform: uppercase;
+			letter-spacing: 0.1em;
+			color: var(--accent-secondary);
+		}
+
+		h1 {
+			margin: var(--space-2) 0 var(--space-3) 0;
+		}
+
+		.description {
+			color: var(--text-muted);
+			font-size: 1rem;
+			margin: 0 0 var(--space-4) 0;
+		}
+
+		.meta {
+			font-size: 0.8rem;
+			color: var(--text-muted);
+			margin-bottom: var(--space-4);
+		}
+
+		.stack {
+			display: flex;
+			flex-wrap: wrap;
+			gap: var(--space-2);
+			margin-bottom: var(--space-6);
+		}
+
+		.tag {
+			font-size: 0.7rem;
+			padding: 0.15em 0.7em;
+			border: 1px solid currentColor;
+			border-radius: 999px;
+			opacity: 0.85;
+			white-space: nowrap;
+		}
+
+		.links {
+			display: flex;
+			flex-wrap: wrap;
+			gap: var(--space-6);
+			font-size: 0.9rem;
+		}
+	</style>
+</BaseLayout>

@@ -32,7 +32,12 @@ const projects = defineCollection({
 			description: z.string(),
 			pubDate: z.coerce.date(),
 
-			github: z.string(),
+			// Optional: not everything has a public repo. A game jam entry may
+			// only exist on itch.io, for instance.
+			github: z.string().optional(),
+			// Any other canonical link: itch.io page, live demo, store listing.
+			site: z.object({ label: z.string(), url: z.string() }).optional(),
+
 			stack: z.array(z.string()),
 
 			// Drives grouping and order on /projects. The order lives in
