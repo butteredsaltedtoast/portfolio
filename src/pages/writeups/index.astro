@@ -6,20 +6,147 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 const writeups = (await getCollection('writeups')).sort(
 	(a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime()
 );
+
+// Filters are built from what actually exists in the collection, so a new
+// category appears on its own and an unused one never renders as a dead
+// button. Biggest categories lead, ties broken alphabetically.
+const counts = new Map<string, number>();
+for (const post of writeups) {
+	counts.set(post.data.category, (counts.get(post.data.category) ?? 0) + 1);
+}
+const categories = [...counts.entries()]
+	.sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]))
+	.map(([id, count]) => ({ id, count }));
+
+const authoredCount = writeups.filter((p) => p.data.role === 'author').length;
+const total = writeups.length;
 ---
 
 <BaseLayout title="Writeups" description="Writeups from CTFs I've participated in." width={900} pad="4em 2em">
 	<h1>Writeups</h1>
 
-	<div class="grid">
+	<p class="lede">
+		{total} writeups from {new Set(writeups.map((p) => p.data.ctf)).size} events.
+	</p>
+
+	<!--
+	  Rendered with `hidden` and revealed by script. Without JS these buttons
+	  would do nothing, so no-JS readers get the full unfiltered list and never
+	  see a dead control.
+	-->
+	<div class="filters" data-writeup-filters hidden>
+		<div class="filter-group" role="group" aria-label="Filter writeups by category">
+			<button type="button" class="chip" data-filter-category="all" aria-pressed="true">
+				all <span class="chip-count">{total}</span>
+			</button>
+			{categories.map((cat) => (
+				<button type="button" class={`chip category-${cat.id}`} data-filter-category={cat.id} aria-pressed="false">
+					{cat.id} <span class="chip-count">{cat.count}</span>
+				</button>
+			))}
+		</div>
+
+		{authoredCount > 0 && (
+			<div class="filter-group" role="group" aria-label="Filter writeups by what I did">
+				<button type="button" class="chip chip-role" data-filter-authored aria-pressed="false">
+					authored only <span class="chip-count">{authoredCount}</span>
+				</button>
+			</div>
+		)}
+	</div>
+
+	<p class="result-count" data-result-count aria-live="polite" hidden></p>
+
+	<div class="grid" data-writeup-grid>
 		{writeups.map((post) => <WriteupCard post={post} headingLevel={2} />)}
 	</div>
+
+	<p class="empty" data-empty-state hidden>No writeups match that filter.</p>
 
 	<style>
 
 	h1 {
 		color: var(--accent);
-		margin-bottom: 0.5em;
+		margin-bottom: 0.25em;
+	}
+
+	.lede {
+		color: var(--text-muted);
+		font-size: 0.9rem;
+		margin: 0 0 var(--space-8) 0;
+	}
+
+	.filters {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+		gap: var(--space-6);
+		margin-bottom: var(--space-6);
+	}
+
+	.filter-group {
+		display: flex;
+		flex-wrap: wrap;
+		gap: var(--space-2);
+	}
+
+	.chip {
+		font-family: inherit;
+		font-size: 0.75rem;
+		text-transform: uppercase;
+		letter-spacing: 0.05em;
+		padding: 0.3em 0.9em;
+		border: 1px solid var(--border);
+		border-radius: 999px;
+		background: transparent;
+		color: var(--text-muted);
+		cursor: pointer;
+		transition: border-color 0.2s ease, color 0.2s ease, background 0.2s ease;
+	}
+
+	.chip:hover {
+		border-color: var(--border-strong);
+		color: var(--text);
+	}
+
+	.chip:focus-visible {
+		outline: 2px solid var(--accent);
+		outline-offset: 2px;
+	}
+
+	/* currentColor is the category color on category chips, so each one
+	   activates in its own hue without a rule per category. */
+	.chip[aria-pressed='true'] {
+		border-color: currentColor;
+		color: var(--accent);
+		background: rgba(255, 217, 125, 0.08);
+	}
+
+	.chip.category-pwn[aria-pressed='true'],
+	.chip.category-web[aria-pressed='true'],
+	.chip.category-crypto[aria-pressed='true'],
+	.chip.category-reversing[aria-pressed='true'],
+	.chip.category-misc[aria-pressed='true'],
+	.chip.category-osint[aria-pressed='true'],
+	.chip.category-forensics[aria-pressed='true'] {
+		background: rgba(255, 255, 255, 0.06);
+	}
+
+	.chip-count {
+		opacity: 0.65;
+		font-size: 0.9em;
+	}
+
+	.result-count {
+		font-size: 0.8rem;
+		color: var(--text-muted);
+		margin: 0 0 var(--space-4) 0;
+	}
+
+	.empty {
+		color: var(--text-muted);
+		font-size: 0.9rem;
+		padding: var(--space-8) 0;
 	}
 
 	.grid {
@@ -29,5 +156,78 @@ const writeups = (await getCollection('writeups')).sort(
 	}
 
 	</style>
-	
+
+	<script>
+		function initWriteupFilters() {
+			const bar = document.querySelector<HTMLElement>('[data-writeup-filters]');
+			const grid = document.querySelector<HTMLElement>('[data-writeup-grid]');
+			if (!bar || !grid) return;
+
+			const cards = Array.from(grid.querySelectorAll<HTMLElement>('.card'));
+			const countEl = document.querySelector<HTMLElement>('[data-result-count]');
+			const emptyEl = document.querySelector<HTMLElement>('[data-empty-state]');
+			const categoryButtons = Array.from(
+				bar.querySelectorAll<HTMLButtonElement>('[data-filter-category]')
+			);
+			const authoredButton = bar.querySelector<HTMLButtonElement>('[data-filter-authored]');
+
+			let activeCategory = 'all';
+			let authoredOnly = false;
+
+			function apply() {
+				let shown = 0;
+				for (const card of cards) {
+					const matchesCategory =
+						activeCategory === 'all' || card.dataset.category === activeCategory;
+					const matchesRole = !authoredOnly || card.dataset.role === 'author';
+					const visible = matchesCategory && matchesRole;
+					card.hidden = !visible;
+					if (visible) shown++;
+				}
+
+				for (const button of categoryButtons) {
+					const on = button.dataset.filterCategory === activeCategory;
+					button.setAttribute('aria-pressed', String(on));
+				}
+				authoredButton?.setAttribute('aria-pressed', String(authoredOnly));
+
+				if (countEl) {
+					countEl.hidden = false;
+					countEl.textContent =
+						shown === cards.length
+							? `Showing all ${cards.length} writeups.`
+							: `Showing ${shown} of ${cards.length} writeups.`;
+				}
+				if (emptyEl) emptyEl.hidden = shown !== 0;
+			}
+
+			// Guard so re-running on navigation does not stack listeners.
+			if (bar.dataset.bound !== 'true') {
+				for (const button of categoryButtons) {
+					button.addEventListener('click', () => {
+						activeCategory = button.dataset.filterCategory ?? 'all';
+						apply();
+					});
+				}
+				authoredButton?.addEventListener('click', () => {
+					authoredOnly = !authoredOnly;
+					apply();
+				});
+				bar.dataset.bound = 'true';
+			}
+
+			bar.hidden = false;
+			apply();
+		}
+
+		// ClientRouter swaps the DOM without a full page load, so bind to
+		// astro:page-load rather than DOMContentLoaded alone.
+		document.addEventListener('astro:page-load', initWriteupFilters);
+		if (document.readyState !== 'loading') {
+			initWriteupFilters();
+		} else {
+			document.addEventListener('DOMContentLoaded', initWriteupFilters);
+		}
+	</script>
+
 </BaseLayout>

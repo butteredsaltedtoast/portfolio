@@ -205,6 +205,14 @@ hr {
 	box-shadow: 0 0 16px rgba(255, 217, 125, 0.18);
 }
 
+/* .card sets display:flex, which beats the [hidden] attribute's UA
+   display:none. Lives here rather than in a page, because a page-scoped
+   rule cannot match .card: the element carries WriteupCard's scope id,
+   not the page's. */
+.card[hidden] {
+	display: none;
+}
+
 .card-top {
 	display: flex;
 	justify-content: space-between;
