@@ -6,10 +6,15 @@ import WriteupCard from '../components/WriteupCard.astro';
 
 import ShootingStars from '../components/ShootingStars.astro';
 
-const recentWriteups = (await getCollection('writeups'))
-	.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
-	.slice(0, 2);
+// How many writeups the homepage shows. The total is always derived from the
+// collection, never hardcoded, so it stays right as writeups are added.
+const RECENT_COUNT = 6;
 
+const allWriteups = (await getCollection('writeups')).sort(
+	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
+);
+const recentWriteups = allWriteups.slice(0, RECENT_COUNT);
+const totalWriteups = allWriteups.length;
 ---
 
 <BaseLayout title=".butteredtoast" description="Writeups from CTFs I've participated in." showStars={true} width={900} pad="6em 2em">
@@ -47,9 +52,48 @@ const recentWriteups = (await getCollection('writeups'))
 			letter-spacing: 0.04em;
 		}
 
+		.credential {
+			margin: var(--space-6) 0 0 0;
+			padding-left: var(--space-4);
+			border-left: 2px solid var(--border-strong);
+			font-size: 0.95rem;
+			line-height: 1.6;
+			max-width: 46ch;
+		}
+
+		.credential strong {
+			color: var(--accent);
+			font-weight: 700;
+		}
+
 		.recent {
 			max-width: 800px;
 			width: 100%;
+		}
+
+		.section-head {
+			display: flex;
+			align-items: baseline;
+			justify-content: space-between;
+			gap: var(--space-4);
+			flex-wrap: wrap;
+		}
+
+		.section-head h2 {
+			margin: 0;
+		}
+
+		.see-all {
+			font-size: 0.85rem;
+			white-space: nowrap;
+			text-decoration: none;
+			border-bottom: 1px solid transparent;
+			transition: border-color 0.2s ease;
+		}
+
+		.see-all:hover,
+		.see-all:focus-visible {
+			border-bottom-color: var(--accent);
 		}
 
 	</style>
@@ -57,14 +101,28 @@ const recentWriteups = (await getCollection('writeups'))
 	<div class="home">
 
 	<section class="hero">
-		<h1 class = "handle">.butteredtoast</h1>
-		<p class="tagline">web-focused · he/him · acquiring savantism</p>
+		<h1 class="handle">.butteredtoast</h1>
+		<p class="tagline">web-focused &middot; he/him &middot; acquiring savantism</p>
+
+		<!--
+		  RANKING CLAIM. Confirmed accurate as of 2026-09-04. Standings move.
+		  Re-check https://ctftime.org/team/53812 and update the year before
+		  relying on this. The same claim appears on /bio.
+		-->
+		<p class="credential">
+			Officer of <a href="https://ctftime.org/team/53812" target="_blank" rel="noopener noreferrer">tjcsc</a>,
+			currently <strong>#5 globally on CTFtime for 2026</strong> across all divisions
+			and the top ranked US team.
+		</p>
 	</section>
 
 	<hr />
 
 	<section class="recent">
-		<h2>Recent Writeups</h2>
+		<div class="section-head">
+			<h2>Recent Writeups</h2>
+			<a class="see-all" href="/writeups/">All {totalWriteups} writeups &rarr;</a>
+		</div>
 
 		<div class="recent-grid">
 			{recentWriteups.map((post) => <WriteupCard post={post} headingLevel={3} />)}
