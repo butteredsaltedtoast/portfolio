@@ -4,6 +4,7 @@ description: 'AI lab partner that reads your experimental data, surfaces hidden 
 pubDate: '2026-03-07'
 github: 'https://github.com/butteredsaltedtoast/analytik'
 stack: ['Next.js', 'TypeScript', 'Tailwind', 'Groq', 'Llama']
+category: 'ai'
 ---
 
 Analytik is an AI research infrastructure platform for wet labs and computational teams. You upload experiment data as CSV or JSON, an LLM analyzes it end to end, and you can chat with the analysis to poke at findings, question assumptions, or ask what to try next.

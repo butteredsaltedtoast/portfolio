@@ -4,6 +4,7 @@ description: 'Real-time multiplayer tic-tac-toe with a five-second turn timer â€
 pubDate: '2026-01-18'
 github: 'https://github.com/butteredsaltedtoast/blitztactoe'
 stack: ['Django', 'WebSockets', 'Redis', 'JavaScript']
+category: 'systems'
 ---
 
 BlitzTactoe is tic-tac-toe with the calm surgically removed. Every move is on a five-second countdown â€” hesitate and you lose the turn. Two players connect to a room, a three-second pre-game countdown starts once both sides ready up, and the board is live from there.

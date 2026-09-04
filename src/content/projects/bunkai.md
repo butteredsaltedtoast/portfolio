@@ -4,6 +4,7 @@ description: 'Chrome extension that turns any highlighted Japanese text into an 
 pubDate: '2026-07-04'
 github: 'https://github.com/butteredsaltedtoast/bunkai'
 stack: ['JavaScript', 'Chrome API', 'Gemini']
+category: 'ai'
 ---
 
 Bunkai (分解, "breakdown") is a Chrome extension for people learning Japanese. Highlight any Japanese text on any webpage and a popup appears with the sentence translated naturally into English, followed by a per-word analysis: reading in hiragana, part of speech, dictionary meaning, and — the point of the whole thing — what the word is actually doing in *that specific sentence*.

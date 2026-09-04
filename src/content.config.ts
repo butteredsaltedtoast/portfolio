@@ -1,6 +1,7 @@
 import { defineCollection } from 'astro:content';
 import { glob, file } from 'astro/loaders';
 import { z } from 'astro/zod';
+import { PROJECT_CATEGORY_IDS } from './consts';
 
 const writeups = defineCollection({
 	loader: glob({ base: './src/content/writeups', pattern: '**/*.{md,mdx}' }),
@@ -33,6 +34,14 @@ const projects = defineCollection({
 
 			github: z.string(),
 			stack: z.array(z.string()),
+
+			// Drives grouping and order on /projects. The order lives in
+			// PROJECT_CATEGORIES in consts.ts, not in the page.
+			category: z.enum(PROJECT_CATEGORY_IDS),
+
+			// Draft projects stay in the repo but are excluded from the build,
+			// so placeholder copy can never ship by accident.
+			draft: z.boolean().default(false),
 		}),
 
 });
