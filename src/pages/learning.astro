@@ -1,0 +1,279 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { SITE_TITLE, COURSEWORK_SUBJECTS } from '../consts';
+
+const coursework = await getCollection('coursework');
+const practice = (await getCollection('practice'))
+	.filter((p) => p.data.status === 'active')
+	.sort((a, b) => a.data.order - b.data.order);
+
+const statusRank = { completed: 0, 'in-progress': 1 } as const;
+const subjects = COURSEWORK_SUBJECTS.map((subject) => ({
+	...subject,
+	courses: coursework
+		.filter((c) => c.data.subject === subject.id)
+		.sort(
+			(a, b) =>
+				statusRank[a.data.status] - statusRank[b.data.status] ||
+				a.data.order - b.data.order
+		),
+})).filter((group) => group.courses.length > 0);
+
+const statusLabel = { completed: 'completed', 'in-progress': 'in progress' } as const;
+
+const showDesignationNote = coursework.some((c) => c.data.designation === 'AV');
+---
+
+<BaseLayout
+	title={`Learning | ${SITE_TITLE}`}
+	description="Coursework and self-directed security practice."
+	width={900}
+	pad="4em 2em"
+>
+	<h1>Learning</h1>
+	<p class="lede">Coursework and the practice I do outside of school.</p>
+
+	<section class="block">
+		<h2>Relevant Coursework</h2>
+
+		{subjects.map((subject) => (
+			<div class="subject">
+				<h3 class="subject-title">{subject.label}</h3>
+				<ul class="course-list">
+					{subject.courses.map((course) => (
+						<li class="course">
+							<span class="course-name">
+								{course.data.name}
+								{course.data.designation && (
+									<span class="designation">{course.data.designation}</span>
+								)}
+							</span>
+							<span class={`status status-${course.data.status}`}>
+								{statusLabel[course.data.status]}
+							</span>
+						</li>
+					))}
+				</ul>
+			</div>
+		))}
+
+		{showDesignationNote && (
+			<p class="footnote">
+				<span class="designation">AV</span> is an FCPS course designation for
+				high school courses beyond the level of AP or IB.
+			</p>
+		)}
+	</section>
+
+	{practice.map((platform) => (
+		<section class="block">
+			<h2>
+				<a href={platform.data.url} target="_blank" rel="noopener noreferrer">
+					{platform.data.name}
+				</a>
+			</h2>
+			<p class="blurb">{platform.data.blurb}</p>
+
+			{platform.data.items.length > 0 && (
+				<p class="total">
+					{platform.data.items.reduce((n, i) => n + i.done, 0)} of{' '}
+					{platform.data.items.reduce((n, i) => n + i.total, 0)} {platform.data.unit} solved
+				</p>
+			)}
+
+			{platform.data.items.length > 0 && (
+				<ul class="progress-list">
+					{platform.data.items.map((item) => {
+						const pct = item.total > 0 ? Math.round((item.done / item.total) * 100) : 0;
+						return (
+							<li class="progress-row">
+								<div class="progress-head">
+									<span class="progress-label">
+										{item.label}
+										{item.note && <span class="progress-note">{item.note}</span>}
+									</span>
+									<span class="progress-figure">
+										{item.done} / {item.total} {platform.data.unit}
+									</span>
+								</div>
+																<div class="bar" aria-hidden="true">
+									<div class="bar-fill" style={`width:${pct}%`}></div>
+								</div>
+							</li>
+						);
+					})}
+				</ul>
+			)}
+		</section>
+	))}
+
+	<style>
+		h1 {
+			color: var(--accent);
+			margin-bottom: 0.25em;
+		}
+
+		.lede {
+			color: var(--text-muted);
+			font-size: 0.9rem;
+			margin: 0 0 var(--space-12) 0;
+		}
+
+		.block {
+			margin-bottom: var(--space-16);
+		}
+
+		.block h2 {
+			font-size: 1.6rem;
+			margin: 0 0 var(--space-3) 0;
+			padding-bottom: var(--space-3);
+			border-bottom: 1px solid var(--border);
+		}
+
+		.block h2 a {
+			text-decoration: none;
+		}
+
+		.block h2 a:hover {
+			text-decoration: underline;
+		}
+
+		.blurb {
+			color: var(--text-muted);
+			font-size: 0.9rem;
+			margin: 0;
+			max-width: 62ch;
+		}
+
+		.subject {
+			margin-top: var(--space-6);
+		}
+
+		.subject-title {
+			font-size: 0.7rem;
+			text-transform: uppercase;
+			letter-spacing: 0.1em;
+			color: var(--text-muted);
+			margin: 0 0 var(--space-3) 0;
+		}
+
+		.course-list,
+		.progress-list {
+			list-style: none;
+			margin: 0;
+			padding: 0;
+		}
+
+		.course {
+			display: flex;
+			align-items: baseline;
+			justify-content: space-between;
+			gap: var(--space-4);
+			padding: var(--space-3) 0;
+			border-bottom: 1px solid var(--border);
+		}
+
+		.course-name {
+			font-size: 0.95rem;
+		}
+
+		.status {
+			font-size: 0.7rem;
+			text-transform: uppercase;
+			letter-spacing: 0.05em;
+			white-space: nowrap;
+			padding: 0.15em 0.7em;
+			border: 1px solid currentColor;
+			border-radius: 999px;
+		}
+
+		.status-completed {
+			color: var(--accent);
+		}
+
+		.status-in-progress {
+			color: var(--text-muted);
+		}
+
+		.designation {
+			display: inline-block;
+			margin-left: var(--space-2);
+			font-size: 0.6rem;
+			letter-spacing: 0.1em;
+			padding: 0.1em 0.5em;
+			border: 1px solid var(--border-strong);
+			border-radius: var(--radius-sm);
+			color: var(--accent-secondary);
+			vertical-align: middle;
+		}
+
+		.footnote {
+			margin: var(--space-6) 0 0 0;
+			font-size: 0.75rem;
+			color: var(--text-muted);
+		}
+
+		.footnote .designation {
+			margin-left: 0;
+		}
+
+		.total {
+			margin: var(--space-3) 0 0 0;
+			font-size: 0.8rem;
+			color: var(--accent);
+		}
+
+		.progress-list {
+			margin-top: var(--space-6);
+			display: flex;
+			flex-direction: column;
+			gap: var(--space-4);
+		}
+
+		.progress-head {
+			display: flex;
+			align-items: baseline;
+			justify-content: space-between;
+			gap: var(--space-4);
+			margin-bottom: var(--space-2);
+		}
+
+		.progress-label {
+			font-size: 0.9rem;
+		}
+
+		.progress-note {
+			margin-left: var(--space-2);
+			font-size: 0.7rem;
+			color: var(--text-muted);
+		}
+
+		.progress-figure {
+			font-size: 0.75rem;
+			color: var(--text-muted);
+			white-space: nowrap;
+		}
+
+		.bar {
+			height: 6px;
+			border-radius: 999px;
+			background: var(--surface-2);
+			overflow: hidden;
+		}
+
+		.bar-fill {
+			height: 100%;
+			border-radius: 999px;
+			background: linear-gradient(90deg, var(--accent-secondary), var(--accent));
+		}
+
+		@media (max-width: 720px) {
+			.course {
+				flex-direction: column;
+				align-items: flex-start;
+				gap: var(--space-2);
+			}
+		}
+	</style>
+</BaseLayout>

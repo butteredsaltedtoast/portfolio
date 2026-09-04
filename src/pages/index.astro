@@ -6,8 +6,6 @@ import WriteupCard from '../components/WriteupCard.astro';
 
 import ShootingStars from '../components/ShootingStars.astro';
 
-// How many writeups the homepage shows. The total is always derived from the
-// collection, never hardcoded, so it stays right as writeups are added.
 const RECENT_COUNT = 6;
 
 const allWriteups = (await getCollection('writeups')).sort(
@@ -104,11 +102,6 @@ const totalWriteups = allWriteups.length;
 		<h1 class="handle">.butteredtoast</h1>
 		<p class="tagline">web-focused &middot; he/him &middot; acquiring savantism</p>
 
-		<!--
-		  RANKING CLAIM. Confirmed accurate as of 2026-09-04. Standings move.
-		  Re-check https://ctftime.org/team/53812 and update the year before
-		  relying on this. The same claim appears on /bio.
-		-->
 		<p class="credential">
 			Officer of <a href="https://ctftime.org/team/53812" target="_blank" rel="noopener noreferrer">tjcsc</a>,
 			currently <strong>#5 globally on CTFtime for 2026</strong> across all divisions

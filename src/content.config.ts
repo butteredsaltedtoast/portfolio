@@ -1,7 +1,7 @@
 import { defineCollection } from 'astro:content';
 import { glob, file } from 'astro/loaders';
 import { z } from 'astro/zod';
-import { PROJECT_CATEGORY_IDS } from './consts';
+import { PROJECT_CATEGORY_IDS, COURSEWORK_SUBJECT_IDS } from './consts';
 
 const writeups = defineCollection({
 	loader: glob({ base: './src/content/writeups', pattern: '**/*.{md,mdx}' }),
@@ -16,9 +16,6 @@ const writeups = defineCollection({
 			ctf: z.string(),
 			category: z.enum(['pwn', 'web', 'crypto', 'reversing', 'misc', 'osint', 'forensics']),
 
-			// 'solver' = I solved this challenge during the CTF.
-			// 'author' = I wrote this challenge for the CTF.
-			// Defaults to 'solver' so existing writeups need no frontmatter change.
 			role: z.enum(['solver', 'author']).default('solver'),
 		}),
 });
@@ -32,20 +29,13 @@ const projects = defineCollection({
 			description: z.string(),
 			pubDate: z.coerce.date(),
 
-			// Optional: not everything has a public repo. A game jam entry may
-			// only exist on itch.io, for instance.
 			github: z.string().optional(),
-			// Any other canonical link: itch.io page, live demo, store listing.
 			site: z.object({ label: z.string(), url: z.string() }).optional(),
 
 			stack: z.array(z.string()),
 
-			// Drives grouping and order on /projects. The order lives in
-			// PROJECT_CATEGORIES in consts.ts, not in the page.
 			category: z.enum(PROJECT_CATEGORY_IDS),
 
-			// Draft projects stay in the repo but are excluded from the build,
-			// so placeholder copy can never ship by accident.
 			draft: z.boolean().default(false),
 		}),
 
@@ -63,4 +53,37 @@ const ctfs = defineCollection({
 	}),
 });
 
-export const collections = { writeups, projects, ctfs };
+const coursework = defineCollection({
+	loader: file('./src/content/coursework.yaml'),
+	schema: z.object({
+		name: z.string(),
+		subject: z.enum(COURSEWORK_SUBJECT_IDS),
+		status: z.enum(['completed', 'in-progress']),
+		order: z.number(),
+		designation: z.string().optional(),
+	}),
+});
+
+const practice = defineCollection({
+	loader: file('./src/content/practice.yaml'),
+	schema: z.object({
+		name: z.string(),
+		url: z.string(),
+		blurb: z.string(),
+		unit: z.string(),
+		order: z.number(),
+		status: z.enum(['active', 'planned']).default('active'),
+		items: z
+			.array(
+				z.object({
+					label: z.string(),
+					done: z.number(),
+					total: z.number(),
+					note: z.string().optional(),
+				})
+			)
+			.default([]),
+	}),
+});
+
+export const collections = { writeups, projects, ctfs, coursework, practice };

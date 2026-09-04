@@ -8,17 +8,12 @@ interface Props {
     title: string;
     description: string;
     showStars?: boolean;
-    /** Content column width in px. Global default is 720. */
     width?: number;
-    /** Shorthand padding for <main>, e.g. "4em 2em". */
     pad?: string;
 }
 
 const { title, description, showStars = true, width, pad } = Astro.props;
 
-// <main> lives here, not in the page, so page-scoped `main {}` rules never
-// match it. Pages pass width/pad instead and we hand them down as custom
-// properties that global.css reads.
 const mainStyle = [
     width ? `--main-width:${width}px` : null,
     pad ? `--main-pad:${pad}` : null,

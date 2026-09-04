@@ -5,8 +5,6 @@ import FormattedDate from '../../components/FormattedDate.astro';
 import { SITE_TITLE, PROJECT_CATEGORIES } from '../../consts';
 
 export async function getStaticPaths() {
-	// Drafts must be filtered here too, not just on the index. Otherwise the
-	// page still builds at its URL and lands in the sitemap.
 	const posts = (await getCollection('projects')).filter((p) => !p.data.draft);
 	return posts.map((post) => ({
 		params: { slug: post.id },

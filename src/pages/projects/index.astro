@@ -8,9 +8,6 @@ const projects = (await getCollection('projects'))
     .filter((p) => !p.data.draft)
     .sort((a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime());
 
-// Group order comes from PROJECT_CATEGORIES in consts.ts. Within a group,
-// newest first. Empty groups drop out so an unused category never renders
-// as a bare heading.
 const groups = PROJECT_CATEGORIES.map((category) => ({
     ...category,
     items: projects.filter((p) => p.data.category === category.id),

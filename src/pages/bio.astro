@@ -8,11 +8,6 @@ import { SITE_TITLE } from '../consts';
 
 	<div class="bio-layout">
 		<div class="prose">
-			<!--
-			  RANKING CLAIM. Confirmed accurate as of 2026-09-04. CTFtime standings
-			  move, so re-check https://ctftime.org/team/53812 before relying on this
-			  in an application, and update the year if 2026 is no longer current.
-			-->
 			<p>
 				Hello! I'm a high school student and CTF player based in Northern Virginia,
 				and an officer of <a href="https://ctftime.org/team/53812" target="_blank" rel="noopener noreferrer">tjcsc</a> since June 2026.
@@ -65,6 +60,7 @@ import { SITE_TITLE } from '../consts';
 
 	<style>
 		.bio-name {
+			font-size: clamp(1.75rem, 10vw, 3.052em);
 			background: linear-gradient(135deg, var(--text) 0%, var(--accent) 60%, var(--accent-secondary) 100%);
 			-webkit-background-clip: text;
 			background-clip: text;

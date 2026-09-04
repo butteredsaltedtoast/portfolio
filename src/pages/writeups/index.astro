@@ -7,9 +7,6 @@ const writeups = (await getCollection('writeups')).sort(
 	(a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime()
 );
 
-// Filters are built from what actually exists in the collection, so a new
-// category appears on its own and an unused one never renders as a dead
-// button. Biggest categories lead, ties broken alphabetically.
 const counts = new Map<string, number>();
 for (const post of writeups) {
 	counts.set(post.data.category, (counts.get(post.data.category) ?? 0) + 1);
@@ -29,11 +26,6 @@ const total = writeups.length;
 		{total} writeups from {new Set(writeups.map((p) => p.data.ctf)).size} events.
 	</p>
 
-	<!--
-	  Rendered with `hidden` and revealed by script. Without JS these buttons
-	  would do nothing, so no-JS readers get the full unfiltered list and never
-	  see a dead control.
-	-->
 	<div class="filters" data-writeup-filters hidden>
 		<div class="filter-group" role="group" aria-label="Filter writeups by category">
 			<button type="button" class="chip" data-filter-category="all" aria-pressed="true">
@@ -114,8 +106,6 @@ const total = writeups.length;
 		outline-offset: 2px;
 	}
 
-	/* currentColor is the category color on category chips, so each one
-	   activates in its own hue without a rule per category. */
 	.chip[aria-pressed='true'] {
 		border-color: currentColor;
 		color: var(--accent);
@@ -201,7 +191,6 @@ const total = writeups.length;
 				if (emptyEl) emptyEl.hidden = shown !== 0;
 			}
 
-			// Guard so re-running on navigation does not stack listeners.
 			if (bar.dataset.bound !== 'true') {
 				for (const button of categoryButtons) {
 					button.addEventListener('click', () => {
@@ -220,8 +209,6 @@ const total = writeups.length;
 			apply();
 		}
 
-		// ClientRouter swaps the DOM without a full page load, so bind to
-		// astro:page-load rather than DOMContentLoaded alone.
 		document.addEventListener('astro:page-load', initWriteupFilters);
 		if (document.readyState !== 'loading') {
 			initWriteupFilters();

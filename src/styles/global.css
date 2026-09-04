@@ -67,9 +67,6 @@ body::before {
 	pointer-events: none;
 }
 main {
-	/* Pages set --main-width / --main-pad via the `width` and `pad` props on
-	   BaseLayout. A scoped `main {}` rule inside a page does NOT work, because
-	   <main> belongs to the layout and never gets the page's scope attribute. */
 	width: var(--main-width, 720px);
 	max-width: calc(100% - 2em);
 	flex: 1;
@@ -176,13 +173,9 @@ hr {
 	height: 1px;
 	width: 1px;
 	overflow: hidden;
-	/* IE6, IE7 - a 0 height clip, off to the bottom right of the visible 1px box */
 	clip: rect(1px 1px 1px 1px);
-	/* maybe deprecated but we need to support legacy browsers */
 	clip: rect(1px, 1px, 1px, 1px);
-	/* modern browsers, clip-path works inwards from each corner */
 	clip-path: inset(50%);
-	/* added line to stop words getting smushed together (as they go onto separate lines and some screen readers do not understand line feeds as a space */
 	white-space: nowrap;
 }
 
@@ -205,10 +198,6 @@ hr {
 	box-shadow: 0 0 16px rgba(255, 217, 125, 0.18);
 }
 
-/* .card sets display:flex, which beats the [hidden] attribute's UA
-   display:none. Lives here rather than in a page, because a page-scoped
-   rule cannot match .card: the element carries WriteupCard's scope id,
-   not the page's. */
 .card[hidden] {
 	display: none;
 }
@@ -226,10 +215,6 @@ hr {
 	letter-spacing: 0.05em;
 	color: var(--accent-secondary);
 }
-/* Category and tech colors are small text on the card surface (#0C1E38),
-   so each needs 4.5:1 against it. Six were below that and were lightened
-   just enough to pass, keeping hue and saturation. Check any new color
-   before adding it. */
 .category-pwn { color: #FF69B4; }
 .category-web { color: #00E5A0; }
 .category-crypto { color: #FF5E00; }
@@ -238,8 +223,6 @@ hr {
 .category-osint { color: #FF2D5E; }
 .category-forensics { color: #00CFFF; }
 
-/* Marks a challenge I wrote rather than solved. Deliberately not a category
-   color: it is a different kind of fact about the writeup. */
 .role-badge {
 	text-transform: uppercase;
 	letter-spacing: 0.05em;
@@ -264,6 +247,8 @@ hr {
 .tag-redis { color: #E25B52; }
 .tag-chrome-api { color: #4285F4; }
 .tag-gemini { color: #8E75F0; }
+.tag-godot { color: #478CBF; }
+.tag-gdscript { color: #478CBF; }
 
 .title {
 	font-size: 1.3rem;

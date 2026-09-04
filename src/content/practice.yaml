@@ -1,0 +1,30 @@
+- id: portswigger
+  order: 1
+  name: PortSwigger Web Security Academy
+  url: https://portswigger.net/web-security
+  blurb: >-
+    Free lab-based training in web vulnerabilities, written by the team behind
+    Burp Suite. Labs run from apprentice to expert difficulty.
+  unit: labs
+  status: active
+  items:
+    - label: Apprentice
+      done: 20
+      total: 61
+    - label: Practitioner
+      done: 12
+      total: 173
+    - label: Expert
+      done: 0
+      total: 39
+
+- id: codecrafters
+  order: 2
+  name: Codecrafters
+  url: https://codecrafters.io
+  blurb: >-
+    Build-your-own-X challenges: reimplementing tools like Redis, Git and a
+    shell from scratch, stage by stage.
+  unit: stages
+  status: planned
+  items: []

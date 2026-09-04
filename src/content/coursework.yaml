@@ -1,0 +1,46 @@
+
+- id: cs-foundations
+  order: 1
+  name: CS Foundations
+  subject: cs
+  status: completed
+
+- id: ap-csa-data-structures
+  order: 2
+  name: AP Computer Science A with Data Structures
+  subject: cs
+  status: completed
+
+- id: artificial-intelligence
+  order: 3
+  name: Artificial Intelligence 1 & 2
+  subject: cs
+  status: in-progress
+  designation: AV
+
+- id: computer-vision
+  order: 4
+  name: Computer Vision 1 & 2
+  subject: cs
+  status: in-progress
+  designation: AV
+
+- id: mobile-app-development
+  order: 5
+  name: Mobile App Development
+  subject: cs
+  status: in-progress
+  designation: AV
+
+- id: web-app-development
+  order: 6
+  name: Web App Development
+  subject: cs
+  status: in-progress
+  designation: AV
+
+- id: ap-calculus-bc
+  order: 1
+  name: AP Calculus BC
+  subject: math
+  status: in-progress

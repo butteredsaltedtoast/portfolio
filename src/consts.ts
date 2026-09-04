@@ -1,12 +1,7 @@
-// Place any global data in this file.
-// You can import this data from anywhere in your site by using the `import` keyword.
 
 export const SITE_TITLE = '.butteredtoast';
 export const SITE_DESCRIPTION = "Writeups from CTFs I've participated in.";
 
-// Order here IS the display order on /projects. Security and systems work
-// leads; the LLM-backed things trail. Change the order of this array to
-// change the page. Nothing about ordering is hardcoded in the JSX.
 export const PROJECT_CATEGORIES = [
 	{
 		id: 'security',
@@ -16,7 +11,7 @@ export const PROJECT_CATEGORIES = [
 	{
 		id: 'systems',
 		label: 'Systems',
-		blurb: 'Concurrency, real-time state, and the backends underneath.',
+		blurb: 'Backend work: concurrency and real-time state.',
 	},
 	{
 		id: 'games',
@@ -26,12 +21,12 @@ export const PROJECT_CATEGORIES = [
 	{
 		id: 'tools',
 		label: 'Tools',
-		blurb: 'Small utilities built to scratch an itch.',
+		blurb: 'Small tools I built for myself.',
 	},
 	{
 		id: 'ai',
 		label: 'AI',
-		blurb: 'Applications built on top of hosted language models.',
+		blurb: 'Things I built on top of hosted language models.',
 	},
 ] as const;
 
@@ -40,4 +35,16 @@ export type ProjectCategory = (typeof PROJECT_CATEGORIES)[number]['id'];
 export const PROJECT_CATEGORY_IDS = PROJECT_CATEGORIES.map((c) => c.id) as [
 	ProjectCategory,
 	...ProjectCategory[],
+];
+
+export const COURSEWORK_SUBJECTS = [
+	{ id: 'cs', label: 'Computer Science' },
+	{ id: 'math', label: 'Mathematics' },
+] as const;
+
+export type CourseworkSubject = (typeof COURSEWORK_SUBJECTS)[number]['id'];
+
+export const COURSEWORK_SUBJECT_IDS = COURSEWORK_SUBJECTS.map((s) => s.id) as [
+	CourseworkSubject,
+	...CourseworkSubject[],
 ];

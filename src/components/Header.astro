@@ -12,6 +12,7 @@ import HeaderLink from './HeaderLink.astro';
 			<HeaderLink href="/bio">Bio</HeaderLink>
 			<HeaderLink href="/projects">Projects</HeaderLink>
 			<HeaderLink href="/past-ctfs">Past CTFs</HeaderLink>
+			<HeaderLink href="/learning">Learning</HeaderLink>
 		</div>
 		<div class="social-links">
 			<a href="https://github.com/butteredsaltedtoast" target="_blank">
@@ -78,6 +79,27 @@ import HeaderLink from './HeaderLink.astro';
 	@media (max-width: 720px) {
 		.social-links {
 			display: none;
+		}
+
+		header {
+			padding: 0.5em 1em;
+		}
+		nav {
+			flex-wrap: wrap;
+			row-gap: 0.25em;
+		}
+		nav > h2 {
+			flex: 0 0 100%;
+		}
+		nav > .internal-links {
+			flex: 0 0 100%;
+			flex-wrap: wrap;
+			justify-content: flex-start;
+			column-gap: 0.75em;
+			min-width: 0;
+		}
+		nav a {
+			padding: 0.4em 0;
 		}
 	}
 </style>
