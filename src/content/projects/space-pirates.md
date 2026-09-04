@@ -11,13 +11,13 @@ Space Pirates is a game four of us built at 8-Bit Jam on 22 August 2026, a singl
 
 You fly a ship around an asteroid field, collect ore, haul it back, and sell it. Then you spend the money on upgrades and fuel and go out again.
 
-## What makes it a game and not a chore
+## The catch
 
-The loop has real tension in it because everything pulls against everything else.
+Heavy ore is the good ore. Space Trash weighs 1 and sells for single digits. Lithium weighs 25 and goes for over a thousand.
 
-Ore is worth more when it is heavier. Space Trash weighs 1 and sells for single digits, Lithium weighs 25 and sells for over a thousand. Towed weight slows your ship down, and fuel burns based on how far you actually move. So the run that pays best is also the run that is slowest and most expensive to make.
+Weight slows the ship, and fuel drains by how far you actually move. A full load means a slow trip home and a bigger refuel bill at the end of it.
 
-Meanwhile the market does not sit still. Prices tick every two seconds and drift, so the ore you loaded up on may be worth less by the time you get home.
+Prices move while you fly, ticking every two seconds. Whatever you loaded up on can be worth less by the time you get back.
 
 ## Under the hood
 
