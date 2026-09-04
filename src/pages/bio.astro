@@ -8,9 +8,33 @@ import { SITE_TITLE } from '../consts';
 
 	<div class="bio-layout">
 		<div class="prose">
-			<p>Hello! I'm a high school student and CTF player based in Northern Virginia. I compete with <a href="https://ctftime.org/team/53812" target="_blank">tjcsc</a>.</p>
+			<!--
+			  RANKING CLAIM. Confirmed accurate as of 2026-09-04. CTFtime standings
+			  move, so re-check https://ctftime.org/team/53812 before relying on this
+			  in an application, and update the year if 2026 is no longer current.
+			-->
+			<p>
+				Hello! I'm a high school student and CTF player based in Northern Virginia,
+				and an officer of <a href="https://ctftime.org/team/53812" target="_blank" rel="noopener noreferrer">tjcsc</a> since June 2026.
+				The team is currently <strong>#5 globally on CTFtime for 2026</strong> and the
+				top ranked US team. That ranking is across all divisions, not a student-only bracket.
+			</p>
+
+			<p>
+				Day to day that means writing challenges, giving weekly lectures to club
+				members on web exploitation, and helping organize TJCTF and WinterCTF.
+				Most of all it means competing. The officer team is the group that plays
+				events under tjcsc, and that is where the ranking comes from.
+			</p>
+
 			<p>My main category is web, and I'm branching out into pwn and rev as secondary categories.</p>
-			<p>Outside of CTFs, I do web dev and some competitive programming on the side, maybe challenge building if I get a good idea. Trying to get into some game dev soon.</p>
+
+			<p>
+				Outside of CTFs, I do web dev and some competitive programming on the side,
+				plus challenge building when I get a good idea. I also co-founded
+				<strong>H.O.N.K.</strong>, a game studio, with three friends after we won 8bit jam.
+			</p>
+
 			<p>I like buttered toast.</p>
 		</div>
 
@@ -21,7 +45,8 @@ import { SITE_TITLE } from '../consts';
 			</div>
 			<div class="info-row">
 				<span class="info-label">Team</span>
-				<span><a href="https://ctftime.org/team/53812" target="_blank">tjcsc</a></span>
+				<span><a href="https://ctftime.org/team/53812" target="_blank" rel="noopener noreferrer">tjcsc</a></span>
+				<span class="info-note">Officer since June 2026 &middot; #5 globally, 2026</span>
 			</div>
 			<div class="info-row">
 				<span class="info-label">Focus</span>
@@ -32,8 +57,8 @@ import { SITE_TITLE } from '../consts';
 				</div>
 			</div>
 			<div class="info-links">
-				<a href="https://ctftime.org/user/247161" target="_blank">CTFtime</a>
-				<a href="https://github.com/butteredsaltedtoast" target="_blank">GitHub</a>
+				<a href="https://ctftime.org/user/247161" target="_blank" rel="noopener noreferrer">CTFtime</a>
+				<a href="https://github.com/butteredsaltedtoast" target="_blank" rel="noopener noreferrer">GitHub</a>
 			</div>
 		</aside>
 	</div>
@@ -57,6 +82,8 @@ import { SITE_TITLE } from '../consts';
 
 		.prose p { margin-bottom: var(--space-6); }
 
+		.prose strong { color: var(--accent); font-weight: 700; }
+
 		.info-card {
 			background: linear-gradient(160deg, var(--surface-2) 0%, var(--surface) 100%);
 			border: 1px solid var(--border);
@@ -78,6 +105,12 @@ import { SITE_TITLE } from '../consts';
 			text-transform: uppercase;
 			letter-spacing: 0.1em;
 			color: var(--text-muted);
+		}
+
+		.info-note {
+			font-size: 0.75rem;
+			color: var(--accent-secondary);
+			line-height: 1.4;
 		}
 
 		.specialties { display: flex; gap: var(--space-2); flex-wrap: wrap; }
