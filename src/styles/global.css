@@ -226,12 +226,16 @@ hr {
 	letter-spacing: 0.05em;
 	color: var(--accent-secondary);
 }
+/* Category and tech colors are small text on the card surface (#0C1E38),
+   so each needs 4.5:1 against it. Six were below that and were lightened
+   just enough to pass, keeping hue and saturation. Check any new color
+   before adding it. */
 .category-pwn { color: #FF69B4; }
 .category-web { color: #00E5A0; }
 .category-crypto { color: #FF5E00; }
 .category-reversing { color: #FFD100; }
-.category-misc { color: #9D00FF; }
-.category-osint { color: #FF003C; }
+.category-misc { color: #BC52FF; }
+.category-osint { color: #FF2D5E; }
 .category-forensics { color: #00CFFF; }
 
 /* Marks a challenge I wrote rather than solved. Deliberately not a category
@@ -250,14 +254,14 @@ hr {
 
 .tag-django { color: #44B78B; }
 .tag-javascript { color: #F7DF1E; }
-.tag-css { color: #264DE4; }
+.tag-css { color: #6480EC; }
 .tag-next\.js { color: #EDEDED; }
-.tag-typescript { color: #3178C6; }
+.tag-typescript { color: #488AD2; }
 .tag-tailwind { color: #38BDF8; }
-.tag-llama { color: #9D00FF; }
+.tag-llama { color: #BC52FF; }
 .tag-groq { color: #F55036; }
 .tag-websockets { color: #4EAA25; }
-.tag-redis { color: #DC382D; }
+.tag-redis { color: #E25B52; }
 .tag-chrome-api { color: #4285F4; }
 .tag-gemini { color: #8E75F0; }
 
@@ -300,4 +304,18 @@ body {
 
 ::view-transition-new(root) {
 	animation: fadeIn 0.25s ease both;
+}
+@media (prefers-reduced-motion: reduce) {
+	*,
+	*::before,
+	*::after {
+		animation-duration: 0.01ms !important;
+		animation-iteration-count: 1 !important;
+		transition-duration: 0.01ms !important;
+		scroll-behavior: auto !important;
+	}
+
+	.card:hover {
+		transform: none;
+	}
 }

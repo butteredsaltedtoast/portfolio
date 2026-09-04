@@ -5,7 +5,7 @@
 
   <footer>
         <span>&copy; {today.getFullYear()} .butteredtoast</span>
-  <span class="license-btn" onclick="document.getElementById('license-modal').showModal()">⚖ MIT License</span>
+  <button type="button" class="license-btn" onclick="document.getElementById('license-modal').showModal()">⚖ MIT License</button>
 
 		 <dialog id="license-modal">
 			<p>MIT License</p>
@@ -29,10 +29,24 @@
 		border-top: 1px solid var(--surface);
     }
 
+	/* A real <button>: a span with onclick cannot be reached by keyboard
+	   and is not announced as a control. */
 	.license-btn {
+		font-family: inherit;
+		font-size: inherit;
+		color: inherit;
+		background: none;
+		border: none;
+		padding: 0;
     	cursor: pointer;
 		transition: color 0.2s ease;
   	}
+
+	.license-btn:focus-visible {
+		outline: 2px solid var(--accent);
+		outline-offset: 3px;
+		border-radius: 2px;
+	}
 
   	.license-btn:hover {
         color: var(--accent);
