@@ -1,15 +1,45 @@
+- id: tfcctf-2026
+  name: TFC CTF 2026
+  date: 2026-09-05
+  team: tjcsc
+  placement: 13
+
+- id: z0d1ak-quals-2026
+  name: z0d1ak CTF Qualifiers
+  date: 2026-08-21
+  team: tjcsc
+  placement: 1
+
+- id: uiuctf-2026
+  name: UIUCTF 2026
+  date: 2026-08-07
+  team: tjcsc
+  placement: 19
+
+- id: litctf-2026
+  name: Lexington Informatics Tournament CTF 2026
+  date: 2026-08-01
+  team: tjcsc
+  placement: 6
+
+- id: vuwctf-2026
+  name: VuwCTF 2026
+  date: 2026-07-31
+  team: tjcsc
+  placement: 3
+
+- id: enowars-10
+  name: ENOWARS 10
+  date: 2026-07-18
+  team: tjcsc
+  placement: 35
+
 - id: tjctf-2026
   name: TJCTF 2026
   date: 2026-05-17
   team: Melona Bar Salesmen
   placement: 64
   division: 2nd USHS
-
-- id: ritsec-2026
-  name: RITSEC CTF 2026
-  date: 2026-04-05
-  team: tjcsc
-  status: DQ
 
 - id: asis-final-2025
   name: ASIS CTF Final 2025
