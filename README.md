@@ -1,9 +1,9 @@
 # .butteredtoast
 
-Personal writeups/portfolio site.
+hii! this is my personal portfolio site!!
 
-## Stack
+## stack
 
-- [Astro](https://astro.build/) — static site framework
-- Vanilla CSS — no Tailwind, no component libraries
-- Deployed on Vercel
+- this site uses [astro!!](https://astro.build/) thanks houstonbot <3
+- vanilla css because WE hate tailwind
+- currently deployed with cloudflare

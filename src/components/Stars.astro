@@ -10,8 +10,7 @@ const { enabled = true } = Astro.props;
 <script>
 
     function initStars() {
-        const container = document.querySelector('.stars');
-        console.log('Initializing stars because enabled is', container?.dataset.enabled);
+        const container = document.querySelector<HTMLElement>('.stars');
         if (!container) return;
 
         const enabled = container.dataset.enabled === 'true';
