@@ -1,127 +1,40 @@
----
-import BaseLayout from '../layouts/BaseLayout.astro';
-
-import { getCollection } from 'astro:content';
-import WriteupCard from '../components/WriteupCard.astro';
-
-import ShootingStars from '../components/ShootingStars.astro';
-
-const RECENT_COUNT = 6;
-
-const allWriteups = (await getCollection('writeups')).sort(
-	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
-);
-const recentWriteups = allWriteups.slice(0, RECENT_COUNT);
-const totalWriteups = allWriteups.length;
----
-
-<BaseLayout title=".butteredtoast" description="Writeups from CTFs I've participated in." showStars={true} width={900} pad="6em 2em">
-
-	<ShootingStars />
-
-	<style>
-
-		.home {
-			display: flex;
-			flex-direction: column;
-			gap: 4em;
-		}
-
-		.hero {
-			display: flex;
-			flex-direction: column;
-		}
-
-		.handle {
-			font-family: 'Space Grotesk', sans-serif;
-			font-size: clamp(2.5rem, 6vw, 5rem);
-			margin: 0;
-			background: linear-gradient(135deg, var(--text) 0%, var(--accent) 60%, var(--accent-secondary) 100%);
-			-webkit-background-clip: text;
-			background-clip: text;
-			color: transparent;
-			width: fit-content;
-		}
-
-		.tagline {
-			margin: var(--space-3) 0 0 0;
-			color: var(--text-muted);
-			font-size: 0.95rem;
-			letter-spacing: 0.04em;
-		}
-
-		.credential {
-			margin: var(--space-6) 0 0 0;
-			padding-left: var(--space-4);
-			border-left: 2px solid var(--border-strong);
-			font-size: 0.95rem;
-			line-height: 1.6;
-			max-width: 46ch;
-		}
-
-		.credential strong {
-			color: var(--accent);
-			font-weight: 700;
-		}
-
-		.recent {
-			max-width: 800px;
-			width: 100%;
-		}
-
-		.section-head {
-			display: flex;
-			align-items: baseline;
-			justify-content: space-between;
-			gap: var(--space-4);
-			flex-wrap: wrap;
-		}
-
-		.section-head h2 {
-			margin: 0;
-		}
-
-		.see-all {
-			font-size: 0.85rem;
-			white-space: nowrap;
-			text-decoration: none;
-			border-bottom: 1px solid transparent;
-			transition: border-color 0.2s ease;
-		}
-
-		.see-all:hover,
-		.see-all:focus-visible {
-			border-bottom-color: var(--accent);
-		}
-
-	</style>
-
-	<div class="home">
-
-	<section class="hero">
-		<h1 class="handle">.butteredtoast</h1>
-		<p class="tagline">web-focused &middot; he/him &middot; acquiring savantism</p>
-
-		<p class="credential">
-			Officer of <a href="https://ctftime.org/team/53812" target="_blank" rel="noopener noreferrer">tjcsc</a>,
-			currently <strong>#5 globally on CTFtime for 2026</strong> across all divisions
-			and the top ranked US team.
-		</p>
-	</section>
-
-	<hr />
-
-	<section class="recent">
-		<div class="section-head">
-			<h2>Recent Writeups</h2>
-			<a class="see-all" href="/writeups/">All {totalWriteups} writeups &rarr;</a>
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>butteredfolio</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<meta charset="UTF-8">
+		<style>
+			p {
+				text-align: center;
+				font-family: system-ui, sans-serif;
+				font-size: 2rem;
+			}
+			.center-image {
+				align-items: center;
+				display: flex;
+				justify-content: center;
+			}
+			body {
+				background-color: #0c0236; /* try #0d0d0d later?? maybe. */
+				padding: 16px;
+				margin: 0;
+				color: #fff;
+			}
+			img {
+				width: 256px;
+				image-rendering: pixelated;
+			}
+			a {
+				color: #F9B54E;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="center-image">
+			<img src="toast.png" alt="toast pixel art">
 		</div>
-
-		<div class="recent-grid">
-			{recentWriteups.map((post) => <WriteupCard post={post} headingLevel={3} />)}
-		</div>
-
-	</section>
-
-	</div>
-</BaseLayout>
+		<p>currently closed for a remake! come back soon for butteredfolio v2 :D</p>
+		<p>psst, for now, you can check out my smaller site <a href="https://butteredsaltedtoast.github.io/toaster/">here!</a></p>
+	</body>
+</html>
